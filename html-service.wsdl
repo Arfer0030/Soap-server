@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+    targetNamespace="http://htmlservice.example.com/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://htmlservice.example.com/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Types -->
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://htmlservice.example.com/">
+
+            <!-- GetApiInfo Request/Response -->
+            <xsd:element name="GetApiInfoRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetApiInfoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="message" type="xsd:string"/>
+                        <xsd:element name="endpoints" type="xsd:ArrayOfString"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <!-- GetHTML Request/Response -->
+            <xsd:element name="GetHtmlFileRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="size" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="GetHtmlFileResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="fileName" type="xsd:string"/>
+                        <xsd:element name="content" type="xsd:string"/>
+                        <xsd:element name="contentType" type="xsd:string"/>
+                        <xsd:element name="fileSize" type="xsd:long"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- ArrayOfString Type -->
+            <xsd:complexType name="ArrayOfString">
+                <xsd:sequence>
+                    <xsd:element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+
+    <!-- Messages -->
+    <wsdl:message name="GetApiInfoRequestMessage">
+        <wsdl:part name="parameters" element="tns:GetApiInfoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetApiInfoResponseMessage">
+        <wsdl:part name="parameters" element="tns:GetApiInfoResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="GetHtmlFileRequestMessage">
+        <wsdl:part name="parameters" element="tns:GetHtmlFileRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetHtmlFileResponseMessage">
+        <wsdl:part name="parameters" element="tns:GetHtmlFileResponse"/>
+    </wsdl:message>
+
+    <!-- Port Type -->
+    <wsdl:portType name="HtmlServicePort">
+        <wsdl:operation name="GetApiInfo">
+            <wsdl:input message="tns:GetApiInfoRequestMessage"/>
+            <wsdl:output message="tns:GetApiInfoResponseMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetHtmlFile">
+            <wsdl:input message="tns:GetHtmlFileRequestMessage"/>
+            <wsdl:output message="tns:GetHtmlFileResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <!-- Binding -->
+    <wsdl:binding name="HtmlServiceBinding" type="tns:HtmlServicePort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetApiInfo">
+            <soap:operation soapAction="http://htmlservice.example.com/GetApiInfo"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetHtmlFile">
+            <soap:operation soapAction="http://htmlservice.example.com/GetHtmlFile"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <!-- Service -->
+    <wsdl:service name="HtmlService">
+        <wsdl:port name="HtmlServicePort" binding="tns:HtmlServiceBinding">
+            <soap:address location="http://localhost:8080/htmlservice"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,16 @@
+{
+  "name": "html-soap-service",
+  "version": "1.0.0",
+  "description": "SOAP HTML File Server",
+  "main": "soap-server.js",
+  "scripts": {
+    "start": "node soap-server.js",
+    "test": "node soap-client.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "soap": "^1.4.2"
+  }
+}
